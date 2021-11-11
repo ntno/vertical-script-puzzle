@@ -1,5 +1,7 @@
 const INITIAL_WIDTH=200;
 const INITIAL_HEIGHT=800;
+const INITIAL_FRAME_RATE=30;
+
 const TEXT_FONT_SIZE = 13;
 //60 - for gage selector reference images
 const COPYRIGHT_TEXT = "© ntno 2021, All rights reserved";
@@ -28,7 +30,7 @@ function preload() {
 function initializeData() {
     assetFilenames = Object.values(assetsData);
     for (let i = 0; i < assetFilenames.length; i++) {
-        imgTiles.push(new ImgTile(random(INITIAL_WIDTH), random(INITIAL_HEIGHT), IMAGE_FOLDER + assetFilenames[i]));
+        imgTiles.push(new ImgTile(random(INITIAL_HEIGHT), IMAGE_FOLDER + assetFilenames[i]));
       }
 }
 
@@ -36,12 +38,12 @@ function initializeData() {
 
 function draw() {
     background(255);
-
-for (let i = 0; i < imgTiles.length; i++) {
+    for (let i = 0; i < imgTiles.length; i++) {
         imgTiles[i].display();
-        imgTiles[i].debug();
+        imgTiles[i].scroll(1);
 
       }
+
     if (debugFlag) {
         drawCenterlines();
     }
@@ -109,8 +111,15 @@ function drawCenterlines() {
 }
 
 function setup() {
+    frameRate(INITIAL_FRAME_RATE)
     myCanvas = createCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     myCanvas.parent("canvasContainer");
     myCanvas.style("border", "1pt");
     myCanvas.style("border-style", "solid");
+
+    for (let i = 0; i < imgTiles.length; i++) {
+        imgTiles[i].display();
+        // imgTiles[i].scroll();
+
+      }
 }
