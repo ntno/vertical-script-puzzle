@@ -13,6 +13,9 @@ build: check-app-name
 docker:
 	docker-compose run --rm unix 
 
+local: 
+	p5 serve ./sketch/ --port=8080
+
 serve: build
 	docker-compose up --remove-orphans $(app-name)
 
