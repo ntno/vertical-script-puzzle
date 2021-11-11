@@ -1,7 +1,7 @@
-const INITIAL_WIDTH=1300;
-const INITIAL_HEIGHT=800;
-const INITIAL_SCROLL_WIDTH=90;
-const INITIAL_FRAME_RATE=45;
+const INITIAL_WIDTH = 1300;
+const INITIAL_HEIGHT = 800;
+const INITIAL_SCROLL_WIDTH = 90;
+const INITIAL_FRAME_RATE = 45;
 const DEFAULT_SCROLL_UNIT = -2;
 
 const COPYRIGHT_TEXT = "© ntno 2021, All rights reserved";
@@ -15,7 +15,7 @@ let debugFlag = false;
 
 let apothecaryAssetDetails;
 let apothecaryImageFilenames = [];
-let apothecaryScrollingTiles = []; 
+let apothecaryScrollingTiles = [];
 let apothecaryPlacedTiles = [];
 let manorAssetDetails;
 let manorImageFilenames = [];
@@ -36,15 +36,15 @@ function initializeApothecaryData() {
     let apothecaryPlacedTint = color(255, 204, 0, 150);
     for (let i = 0; i < apothecaryImageFilenames.length; i++) {
         apothecaryScrollingTiles.push(new ImgTile(random(INITIAL_WIDTH), INITIAL_HEIGHT, APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryAssetDetails[apothecaryImageFilenames[i]], apothecaryScrollTint));
-        apothecaryPlacedTiles.push(new ImgTile(100+random(INITIAL_WIDTH-200), 100+random(INITIAL_HEIGHT-200), APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryAssetDetails[apothecaryImageFilenames[i]], apothecaryPlacedTint));
+        apothecaryPlacedTiles.push(new ImgTile(100 + random(INITIAL_WIDTH - 200), 100 + random(INITIAL_HEIGHT - 200), APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryAssetDetails[apothecaryImageFilenames[i]], apothecaryPlacedTint));
     }
-}    
+}
 
 function initializeManorData() {
     manorImageFilenames = Object.keys(manorAssetDetails);
     let manorPlacedTint = color(100, 204, 0, 150);
     for (let i = 0; i < manorImageFilenames.length; i++) {
-        manorPlacedTiles.push(new ImgTile(100 + random(INITIAL_WIDTH-200), 100 + random(INITIAL_HEIGHT-200), MANOR_IMAGE_FOLDER + manorImageFilenames[i], manorAssetDetails[manorImageFilenames[i]], manorPlacedTint));
+        manorPlacedTiles.push(new ImgTile(100 + random(INITIAL_WIDTH - 200), 100 + random(INITIAL_HEIGHT - 200), MANOR_IMAGE_FOLDER + manorImageFilenames[i], manorAssetDetails[manorImageFilenames[i]], manorPlacedTint));
     }
 }
 
@@ -53,40 +53,40 @@ function draw() {
     for (let i = 0; i < apothecaryScrollingTiles.length; i++) {
         apothecaryScrollingTiles[i].display();
         apothecaryScrollingTiles[i].scroll(scrollUnit);
-      }
-      
-      for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
+    }
+
+    for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
         apothecaryPlacedTiles[i].updateForDrag();
         apothecaryPlacedTiles[i].display();
-      }
+    }
 
-      for (let i = 0; i < manorPlacedTiles.length; i++) {
+    for (let i = 0; i < manorPlacedTiles.length; i++) {
         manorPlacedTiles[i].updateForDrag();
         manorPlacedTiles[i].display();
-      }
+    }
 
     if (debugFlag) {
         drawCenterlines();
     }
-  }
-  
-  function mousePressed() {
+}
+
+function mousePressed() {
     for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
         apothecaryPlacedTiles[i].isMousePressed();
-      }
-      for (let i = 0; i < manorPlacedTiles.length; i++) {
+    }
+    for (let i = 0; i < manorPlacedTiles.length; i++) {
         manorPlacedTiles[i].isMousePressed();
-      }
-  }
-  
-  function mouseReleased() {
+    }
+}
+
+function mouseReleased() {
     for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
         apothecaryPlacedTiles[i].setDragComplete();
-      }
-      for (let i = 0; i < manorPlacedTiles.length; i++) {
+    }
+    for (let i = 0; i < manorPlacedTiles.length; i++) {
         manorPlacedTiles[i].setDragComplete();
-      }
-  }
+    }
+}
 
 //interactive controls
 function keyTyped() {
@@ -94,12 +94,12 @@ function keyTyped() {
         print("toggling debug");
         debugFlag = !debugFlag;
     }
-    if (key === "s"){
+    if (key === "s") {
         print("toggling scroll stop");
-        if(scrollUnit == 0){
+        if (scrollUnit == 0) {
             scrollUnit = DEFAULT_SCROLL_UNIT;
         }
-        else{
+        else {
             scrollUnit = 0;
         }
     }
@@ -112,16 +112,16 @@ function drawCenterlines() {
     line(width / 2, 0, width / 2, height);
 }
 
-function repositionTiles(){
+function repositionTiles() {
     let startingHeight = INITIAL_HEIGHT;
     let totalLengthOfTiles = scrollPadding;
-    apothecaryScrollingTiles[0].setX(INITIAL_SCROLL_WIDTH/2 - apothecaryScrollingTiles[0].getWidth()/2);
+    apothecaryScrollingTiles[0].setX(INITIAL_SCROLL_WIDTH / 2 - apothecaryScrollingTiles[0].getWidth() / 2);
     apothecaryScrollingTiles[0].setY(startingHeight + totalLengthOfTiles);
 
     for (let i = 1; i < apothecaryScrollingTiles.length; i++) {
-        totalLengthOfTiles = totalLengthOfTiles + apothecaryScrollingTiles[i-1].getHeight() + scrollPadding;
+        totalLengthOfTiles = totalLengthOfTiles + apothecaryScrollingTiles[i - 1].getHeight() + scrollPadding;
         console.log("moving " + apothecaryScrollingTiles[i].getFilePath() + " to " + (startingHeight + totalLengthOfTiles));
-        apothecaryScrollingTiles[i].setX(INITIAL_SCROLL_WIDTH/2 - apothecaryScrollingTiles[i].getWidth()/2);
+        apothecaryScrollingTiles[i].setX(INITIAL_SCROLL_WIDTH / 2 - apothecaryScrollingTiles[i].getWidth() / 2);
         apothecaryScrollingTiles[i].setY(startingHeight + totalLengthOfTiles);
     }
 }
