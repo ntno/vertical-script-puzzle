@@ -24,7 +24,7 @@ clean:
 
 
 create-gif-from-demo-files:
-	docker-compose run --rm graphics-magic convert -delay 15 /usr/src/demo/*.png demo.gif
+	docker-compose run --rm graphics-magic convert -verbose -delay 15 /usr/src/demo/*.png /usr/src/demo.gif
 
 ##########################################################################################
 check-asset-folder: 
