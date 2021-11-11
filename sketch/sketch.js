@@ -16,8 +16,9 @@ let debugFlag = false;
 
 let assetsData;
 let assetFilenames = [];
-let imgTiles = []; 
-let imgPadding = 0;
+let scrollingTiles = []; 
+let placedTiles = [];
+let scrollPadding = 0;
 let scrollUnit = DEFAULT_SCROLL_UNIT;
 
 //load file names
@@ -30,15 +31,16 @@ function preload() {
 function initializeData() {
     assetFilenames = Object.values(assetsData);
     for (let i = 0; i < assetFilenames.length; i++) {
-        imgTiles.push(new ImgTile(INITIAL_HEIGHT, IMAGE_FOLDER + assetFilenames[i]));
+        scrollingTiles.push(new ImgTile(random(INITIAL_WIDTH), INITIAL_HEIGHT, IMAGE_FOLDER + assetFilenames[i]));
+        placedTiles.push(new ImgTile(random(INITIAL_WIDTH), random(INITIAL_HEIGHT), IMAGE_FOLDER + assetFilenames[i]));
     }
 }
 
 function draw() {
     background(255);
-    for (let i = 0; i < imgTiles.length; i++) {
-        imgTiles[i].display();
-        imgTiles[i].scroll(scrollUnit);
+    for (let i = 0; i < scrollingTiles.length; i++) {
+        scrollingTiles[i].display();
+        scrollingTiles[i].scroll(scrollUnit);
       }
 
     if (debugFlag) {
@@ -73,12 +75,15 @@ function drawCenterlines() {
 
 function repositionTiles(){
     let startingHeight = INITIAL_HEIGHT;
-    let totalLengthOfTiles = imgPadding;
- 
-    for (let i = 1; i < imgTiles.length; i++) {
-        totalLengthOfTiles = totalLengthOfTiles + imgTiles[i-1].getHeight() + imgPadding;
-        console.log("moving " + imgTiles[i].getFilePath() + " to " + (startingHeight + totalLengthOfTiles));
-        imgTiles[i].setHeight(startingHeight + totalLengthOfTiles);
+    let totalLengthOfTiles = scrollPadding;
+    scrollingTiles[0].setX(INITIAL_SCROLL_WIDTH/2 - scrollingTiles[0].getWidth()/2);
+    scrollingTiles[0].setY(startingHeight + totalLengthOfTiles);
+
+    for (let i = 1; i < scrollingTiles.length; i++) {
+        totalLengthOfTiles = totalLengthOfTiles + scrollingTiles[i-1].getHeight() + scrollPadding;
+        console.log("moving " + scrollingTiles[i].getFilePath() + " to " + (startingHeight + totalLengthOfTiles));
+        scrollingTiles[i].setX(INITIAL_SCROLL_WIDTH/2 - scrollingTiles[i].getWidth()/2);
+        scrollingTiles[i].setY(startingHeight + totalLengthOfTiles);
     }
 }
 
@@ -89,8 +94,8 @@ function setup() {
     myCanvas.style("border", "1pt");
     myCanvas.style("border-style", "solid");
 
-    for (let i = 0; i < imgTiles.length; i++) {
-        imgTiles[i].debug();
+    for (let i = 0; i < scrollingTiles.length; i++) {
+        scrollingTiles[i].debug();
     }
     repositionTiles();
 }

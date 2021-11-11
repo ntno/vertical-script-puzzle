@@ -1,20 +1,28 @@
 class ImgTile {
-    constructor(ypos, imgPath) {
+    constructor(xpos, ypos, imgPath) {
+        this.x = xpos;
         this.y = ypos;
         this.filePath = imgPath;
         this.img = loadImage(imgPath, () => {
             this.img_width = this.img.width;
             this.img_height = this.img.height;
-            this.x = INITIAL_SCROLL_WIDTH/2-this.img.width/2;
             }   
         );
+    }
+
+    getWidth(){
+        return this.img_width;
     }
 
     getHeight(){
         return this.img_height;
     }
 
-    setHeight(ypos){
+    setX(xpos){
+        this.x = xpos
+    }
+    
+    setY(ypos){
         this.y = ypos;
     }
 
