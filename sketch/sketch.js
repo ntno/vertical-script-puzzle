@@ -33,8 +33,8 @@ function initializeData() {
     let apothecaryScrollTint = color(200, 255);
     let apothecaryPlacedTint = color(255, 204, 0, 150);
     for (let i = 0; i < apothecaryImageFilenames.length; i++) {
-        apothecaryScrollingTiles.push(new ImgTile(random(INITIAL_WIDTH), INITIAL_HEIGHT, APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryScrollTint));
-        apothecaryPlacedTiles.push(new ImgTile(random(INITIAL_WIDTH-50), random(INITIAL_HEIGHT-50), APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryPlacedTint));
+        apothecaryScrollingTiles.push(new ImgTile(random(INITIAL_WIDTH), INITIAL_HEIGHT, APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryAssetDetails[apothecaryImageFilenames[i]], apothecaryScrollTint));
+        apothecaryPlacedTiles.push(new ImgTile(random(INITIAL_WIDTH-50), random(INITIAL_HEIGHT-50), APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryAssetDetails[apothecaryImageFilenames[i]], apothecaryPlacedTint));
     }
 }
 
