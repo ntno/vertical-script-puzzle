@@ -1,5 +1,5 @@
 class ImgTile {
-    constructor(xpos, ypos, imgPath, imgTint) {
+    constructor(xpos, ypos, imgPath, tileTranslation, imgTint) {
         this.x = xpos;
         this.y = ypos;
         this.filePath = imgPath;
@@ -7,6 +7,7 @@ class ImgTile {
             this.img_width = this.img.width;
             this.img_height = this.img.height;
         });
+        this.tileTranslation = tileTranslation;
         this.imgTint = imgTint;
         this.dragging = false; // is the tile being dragged?
         this.rollover = false; // is the mouse over the tile?
@@ -37,6 +38,9 @@ class ImgTile {
     }
 
     setDragComplete() {
+        if(this.dragging){
+            console.log("done drag action for '" + this.getTileTranslation() + "'");
+        }
         this.dragging = false;
     }
 
@@ -74,6 +78,17 @@ class ImgTile {
     getFilePath() {
         return this.filePath;
     }
+
+    getTileTranslation(){
+        return this.tileTranslation;
+    }
+
+    resizeTile(newWidth){
+        this.img.resize(newWidth, 0);
+        this.img_width = this.img.width;
+        this.img_height = this.img.height;
+    }
+    
 
     debug() {
         console.log(this.getFilePath() + " is " + this.img_width + " by " + str(this.getHeight()));
