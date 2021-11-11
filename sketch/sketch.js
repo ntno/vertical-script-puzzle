@@ -12,7 +12,7 @@ const MANOR_IMAGE_FOLDER = "assets/manor-letter-detail/";
 
 let myCanvas;
 let debugFlag = false;
-let saveCount = 0;
+let saveCount = 10; //todo: update save function so that it pads with leading zeroes
 
 let apothecaryAssetDetails;
 let apothecaryImageFilenames = [];
