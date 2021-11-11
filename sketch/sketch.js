@@ -17,24 +17,34 @@ let apothecaryAssetDetails;
 let apothecaryImageFilenames = [];
 let apothecaryScrollingTiles = []; 
 let apothecaryPlacedTiles = [];
-
+let manorAssetDetails;
+let manorImageFilenames = [];
+let manorPlacedTiles = [];
 let scrollPadding = 0;
 let scrollUnit = DEFAULT_SCROLL_UNIT;
 
 //load file names
 function preload() {
-    apothecaryAssetDetails = loadJSON(APOTHECARY_INDEX_FILENAME, callback = initializeData);
+    apothecaryAssetDetails = loadJSON(APOTHECARY_INDEX_FILENAME, callback = initializeApothecaryData);
+    manorAssetDetails = loadJSON(MANOR_INDEX_FILENAME, callback = initializeManorData);
 }
 
 //create tiles 
-//update starting position 
-function initializeData() {
+function initializeApothecaryData() {
     apothecaryImageFilenames = Object.keys(apothecaryAssetDetails);
     let apothecaryScrollTint = color(200, 255);
     let apothecaryPlacedTint = color(255, 204, 0, 150);
     for (let i = 0; i < apothecaryImageFilenames.length; i++) {
         apothecaryScrollingTiles.push(new ImgTile(random(INITIAL_WIDTH), INITIAL_HEIGHT, APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryAssetDetails[apothecaryImageFilenames[i]], apothecaryScrollTint));
-        apothecaryPlacedTiles.push(new ImgTile(random(INITIAL_WIDTH-50), random(INITIAL_HEIGHT-50), APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryAssetDetails[apothecaryImageFilenames[i]], apothecaryPlacedTint));
+        apothecaryPlacedTiles.push(new ImgTile(100+random(INITIAL_WIDTH-200), 100+random(INITIAL_HEIGHT-200), APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryAssetDetails[apothecaryImageFilenames[i]], apothecaryPlacedTint));
+    }
+}    
+
+function initializeManorData() {
+    manorImageFilenames = Object.keys(manorAssetDetails);
+    let manorPlacedTint = color(100, 204, 0, 150);
+    for (let i = 0; i < manorImageFilenames.length; i++) {
+        manorPlacedTiles.push(new ImgTile(100 + random(INITIAL_WIDTH-200), 100 + random(INITIAL_HEIGHT-200), MANOR_IMAGE_FOLDER + manorImageFilenames[i], manorAssetDetails[manorImageFilenames[i]], manorPlacedTint));
     }
 }
 
@@ -50,6 +60,11 @@ function draw() {
         apothecaryPlacedTiles[i].display();
       }
 
+      for (let i = 0; i < manorPlacedTiles.length; i++) {
+        manorPlacedTiles[i].updateForDrag();
+        manorPlacedTiles[i].display();
+      }
+
     if (debugFlag) {
         drawCenterlines();
     }
@@ -59,11 +74,17 @@ function draw() {
     for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
         apothecaryPlacedTiles[i].isMousePressed();
       }
+      for (let i = 0; i < manorPlacedTiles.length; i++) {
+        manorPlacedTiles[i].isMousePressed();
+      }
   }
   
   function mouseReleased() {
     for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
         apothecaryPlacedTiles[i].setDragComplete();
+      }
+      for (let i = 0; i < manorPlacedTiles.length; i++) {
+        manorPlacedTiles[i].setDragComplete();
       }
   }
 
@@ -119,7 +140,9 @@ function setup() {
     for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
         apothecaryPlacedTiles[i].resizeTile(40);
     }
-    
+    for (let i = 0; i < manorPlacedTiles.length; i++) {
+        manorPlacedTiles[i].resizeTile(40);
+    }
     repositionTiles();
 }
 
