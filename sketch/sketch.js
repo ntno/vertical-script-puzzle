@@ -1,7 +1,7 @@
-const INITIAL_WIDTH=200;
+const INITIAL_WIDTH=90;
 const INITIAL_HEIGHT=800;
-const INITIAL_FRAME_RATE=30;
-const DEFAULT_SCROLL_UNIT = -1;
+const INITIAL_FRAME_RATE=45;
+const DEFAULT_SCROLL_UNIT = -2;
 
 const TEXT_FONT_SIZE = 13;
 const COPYRIGHT_TEXT = "© ntno 2021, All rights reserved";
@@ -14,7 +14,7 @@ let debugFlag = false;
 let assetsData;
 let assetFilenames = [];
 let imgTiles = []; 
-let imgPadding = 5;
+let imgPadding = 0;
 let scrollUnit = DEFAULT_SCROLL_UNIT;
 
 //load file names
@@ -83,8 +83,8 @@ function setup() {
     frameRate(INITIAL_FRAME_RATE)
     myCanvas = createCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     myCanvas.parent("canvasContainer");
-    myCanvas.style("border", "1pt");
-    myCanvas.style("border-style", "solid");
+    // myCanvas.style("border", "1pt");
+    // myCanvas.style("border-style", "solid");
 
     for (let i = 0; i < imgTiles.length; i++) {
         imgTiles[i].debug();
