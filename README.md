@@ -1,6 +1,15 @@
 # vertical-script-puzzle
 
 
+## sketch controls
+
+```
+d - debug, adds centering lines
+w - saves canvas as a 'wip' image to downloads
+s - toggles scrolling banner effect
+click/drag colored tiles
+```
+
 ## references
 
 
