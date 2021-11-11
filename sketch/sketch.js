@@ -1,71 +1,93 @@
-const INITIAL_WIDTH=1200;
-const INITIAL_HEIGHT=800;
-const INITIAL_SCROLL_WIDTH=90;
-const INITIAL_FRAME_RATE=45;
+const INITIAL_WIDTH = 1300;
+const INITIAL_HEIGHT = 800;
+const INITIAL_SCROLL_WIDTH = 90;
+const INITIAL_FRAME_RATE = 45;
 const DEFAULT_SCROLL_UNIT = -2;
 
-const TEXT_FONT_SIZE = 13;
 const COPYRIGHT_TEXT = "© ntno 2021, All rights reserved";
-const ASSETS_INDEX_FILENAME = "meta/assets-apd.json";
-const IMAGE_FOLDER = "assets/apothecary-notes-detail/";
-// const ASSETS_INDEX_FILENAME = "meta/assets-mld.json";
-// const IMAGE_FOLDER = "assets/manor-letter-detail/";
+const APOTHECARY_INDEX_FILENAME = "meta/assets-apd.json";
+const APOTHECARY_IMAGE_FOLDER = "assets/apothecary-notes-detail/";
+const MANOR_INDEX_FILENAME = "meta/assets-mld.json";
+const MANOR_IMAGE_FOLDER = "assets/manor-letter-detail/";
 
 let myCanvas;
 let debugFlag = false;
+let saveCount = 10; //todo: update save function so that it pads with leading zeroes
 
-let assetsData;
-let assetFilenames = [];
-let scrollingTiles = []; 
-let placedTiles = [];
+let apothecaryAssetDetails;
+let apothecaryImageFilenames = [];
+let apothecaryScrollingTiles = [];
+let apothecaryPlacedTiles = [];
+let manorAssetDetails;
+let manorImageFilenames = [];
+let manorPlacedTiles = [];
 let scrollPadding = 0;
 let scrollUnit = DEFAULT_SCROLL_UNIT;
 
 //load file names
 function preload() {
-    assetsData = loadJSON(ASSETS_INDEX_FILENAME, callback = initializeData);
+    apothecaryAssetDetails = loadJSON(APOTHECARY_INDEX_FILENAME, callback = initializeApothecaryData);
+    manorAssetDetails = loadJSON(MANOR_INDEX_FILENAME, callback = initializeManorData);
 }
 
 //create tiles 
-//update starting position 
-function initializeData() {
-    assetFilenames = Object.values(assetsData);
-    let scrollTint = color(200, 255);
-    let placedTint = color(255, 204, 0, 150);
-    for (let i = 0; i < assetFilenames.length; i++) {
-        scrollingTiles.push(new ImgTile(random(INITIAL_WIDTH), INITIAL_HEIGHT, IMAGE_FOLDER + assetFilenames[i], scrollTint));
-        placedTiles.push(new ImgTile(random(INITIAL_WIDTH), random(INITIAL_HEIGHT), IMAGE_FOLDER + assetFilenames[i], placedTint));
+function initializeApothecaryData() {
+    apothecaryImageFilenames = Object.keys(apothecaryAssetDetails);
+    let apothecaryScrollTint = color(200, 255);
+    let apothecaryPlacedTint = color(255, 204, 0, 150);
+    for (let i = 0; i < apothecaryImageFilenames.length; i++) {
+        apothecaryScrollingTiles.push(new ImgTile(random(INITIAL_WIDTH), INITIAL_HEIGHT, APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryAssetDetails[apothecaryImageFilenames[i]], apothecaryScrollTint));
+        apothecaryPlacedTiles.push(new ImgTile(100 + random(INITIAL_WIDTH - 200), 100 + random(INITIAL_HEIGHT - 200), APOTHECARY_IMAGE_FOLDER + apothecaryImageFilenames[i], apothecaryAssetDetails[apothecaryImageFilenames[i]], apothecaryPlacedTint));
+    }
+}
+
+function initializeManorData() {
+    manorImageFilenames = Object.keys(manorAssetDetails);
+    let manorPlacedTint = color(100, 204, 0, 150);
+    for (let i = 0; i < manorImageFilenames.length; i++) {
+        manorPlacedTiles.push(new ImgTile(100 + random(INITIAL_WIDTH - 200), 100 + random(INITIAL_HEIGHT - 200), MANOR_IMAGE_FOLDER + manorImageFilenames[i], manorAssetDetails[manorImageFilenames[i]], manorPlacedTint));
     }
 }
 
 function draw() {
     background(255);
-    for (let i = 0; i < scrollingTiles.length; i++) {
-        scrollingTiles[i].display();
-        scrollingTiles[i].scroll(scrollUnit);
-      }
-      
-      for (let i = 0; i < placedTiles.length; i++) {
-        placedTiles[i].updateForDrag();
-        placedTiles[i].display();
-      }
+    for (let i = 0; i < apothecaryScrollingTiles.length; i++) {
+        apothecaryScrollingTiles[i].display();
+        apothecaryScrollingTiles[i].scroll(scrollUnit);
+    }
+
+    for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
+        apothecaryPlacedTiles[i].updateForDrag();
+        apothecaryPlacedTiles[i].display();
+    }
+
+    for (let i = 0; i < manorPlacedTiles.length; i++) {
+        manorPlacedTiles[i].updateForDrag();
+        manorPlacedTiles[i].display();
+    }
 
     if (debugFlag) {
         drawCenterlines();
     }
-  }
-  
-  function mousePressed() {
-    for (let i = 0; i < placedTiles.length; i++) {
-        placedTiles[i].isMousePressed();
-      }
-  }
-  
-  function mouseReleased() {
-    for (let i = 0; i < placedTiles.length; i++) {
-        placedTiles[i].setDragComplete();
-      }
-  }
+}
+
+function mousePressed() {
+    for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
+        apothecaryPlacedTiles[i].isMousePressed();
+    }
+    for (let i = 0; i < manorPlacedTiles.length; i++) {
+        manorPlacedTiles[i].isMousePressed();
+    }
+}
+
+function mouseReleased() {
+    for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
+        apothecaryPlacedTiles[i].setDragComplete();
+    }
+    for (let i = 0; i < manorPlacedTiles.length; i++) {
+        manorPlacedTiles[i].setDragComplete();
+    }
+}
 
 //interactive controls
 function keyTyped() {
@@ -73,14 +95,18 @@ function keyTyped() {
         print("toggling debug");
         debugFlag = !debugFlag;
     }
-    if (key === "s"){
+    if (key === "s") {
         print("toggling scroll stop");
-        if(scrollUnit == 0){
+        if (scrollUnit == 0) {
             scrollUnit = DEFAULT_SCROLL_UNIT;
         }
-        else{
+        else {
             scrollUnit = 0;
         }
+    }
+    if (key === "w") {
+        saveCanvas(myCanvas, "wip-" + saveCount);
+        saveCount++;
     }
 }
 
@@ -91,17 +117,17 @@ function drawCenterlines() {
     line(width / 2, 0, width / 2, height);
 }
 
-function repositionTiles(){
+function repositionTiles() {
     let startingHeight = INITIAL_HEIGHT;
     let totalLengthOfTiles = scrollPadding;
-    scrollingTiles[0].setX(INITIAL_SCROLL_WIDTH/2 - scrollingTiles[0].getWidth()/2);
-    scrollingTiles[0].setY(startingHeight + totalLengthOfTiles);
+    apothecaryScrollingTiles[0].setX(INITIAL_SCROLL_WIDTH / 2 - apothecaryScrollingTiles[0].getWidth() / 2);
+    apothecaryScrollingTiles[0].setY(startingHeight + totalLengthOfTiles);
 
-    for (let i = 1; i < scrollingTiles.length; i++) {
-        totalLengthOfTiles = totalLengthOfTiles + scrollingTiles[i-1].getHeight() + scrollPadding;
-        console.log("moving " + scrollingTiles[i].getFilePath() + " to " + (startingHeight + totalLengthOfTiles));
-        scrollingTiles[i].setX(INITIAL_SCROLL_WIDTH/2 - scrollingTiles[i].getWidth()/2);
-        scrollingTiles[i].setY(startingHeight + totalLengthOfTiles);
+    for (let i = 1; i < apothecaryScrollingTiles.length; i++) {
+        totalLengthOfTiles = totalLengthOfTiles + apothecaryScrollingTiles[i - 1].getHeight() + scrollPadding;
+        console.log("moving " + apothecaryScrollingTiles[i].getFilePath() + " to " + (startingHeight + totalLengthOfTiles));
+        apothecaryScrollingTiles[i].setX(INITIAL_SCROLL_WIDTH / 2 - apothecaryScrollingTiles[i].getWidth() / 2);
+        apothecaryScrollingTiles[i].setY(startingHeight + totalLengthOfTiles);
     }
 }
 
@@ -113,8 +139,14 @@ function setup() {
     myCanvas.style("border", "1pt");
     myCanvas.style("border-style", "solid");
 
-    for (let i = 0; i < scrollingTiles.length; i++) {
-        scrollingTiles[i].debug();
+    for (let i = 0; i < apothecaryScrollingTiles.length; i++) {
+        apothecaryScrollingTiles[i].debug();
+    }
+    for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
+        apothecaryPlacedTiles[i].resizeTile(40);
+    }
+    for (let i = 0; i < manorPlacedTiles.length; i++) {
+        manorPlacedTiles[i].resizeTile(40);
     }
     repositionTiles();
 }

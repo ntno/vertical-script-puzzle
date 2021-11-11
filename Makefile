@@ -22,15 +22,9 @@ serve: build
 clean:
 	rm -rf temp
 
-generate-index: check-search-string check-asset-folder check-output-file
-	@mkdir -p sketch/meta && \
-	rm -rf sketch/meta/$(output-file)
-	@cd $(asset-folder) && \
-	ls -p -1 | grep -v -e ".*/$$" | grep -ie $(search-string) | jq -Rn '[inputs]' > ../../meta/$(output-file) 
 
-generate-all-indexes: 
-	make generate-index search-string="apd.*\.png" asset-folder="./sketch/assets/apothecary-notes-detail/"  output-file="assets-apd.json"
-	make generate-index search-string="mld.*\.png" asset-folder="./sketch/assets/manor-letter-detail/" output-file="assets-mld.json"
+create-gif-from-demo-files:
+	docker-compose run --rm graphics-magic convert -verbose -delay 15 /usr/src/demo/*.png /usr/src/demo.gif
 
 ##########################################################################################
 check-asset-folder: 

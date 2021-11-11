@@ -9,6 +9,10 @@ services:
       AWS_PROFILE: inferno-svc
       AWS_SHARED_CREDENTIALS_FILE: /root/.aws/credentials
       AWS_SDK_LOAD_CONFIG: 1
+  graphics-magic:
+    image: mwader/static-gm:latest
+    volumes:
+      - $PWD:/usr/src
   vertical-script-puzzle:
     image: vertical-script-puzzle:latest
     restart: always
