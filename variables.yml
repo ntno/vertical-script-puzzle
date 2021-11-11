@@ -1,0 +1,12 @@
+---
+environments:
+  prod:
+    dcs:
+      us-east-1:
+        vars:
+          AWS_REGION: "us-east-1"
+  dev:
+    dcs:
+      us-east-1:
+        vars:
+          AWS_REGION: "us-east-1"

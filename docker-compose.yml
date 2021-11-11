@@ -1,0 +1,21 @@
+version: '3'
+services:
+  unix:
+    image: ntno/ubuntu-build-base:0.0.9
+    volumes:
+      - ~/.aws/:/root/.aws:ro    #ro for read only
+      - $PWD:/usr/src
+    environment:
+      AWS_PROFILE: inferno-svc
+      AWS_SHARED_CREDENTIALS_FILE: /root/.aws/credentials
+      AWS_SDK_LOAD_CONFIG: 1
+  vertical-script-puzzle:
+    image: vertical-script-puzzle:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      PORT: 8080
+      LOG_LEVEL: info
