@@ -7,6 +7,8 @@ const TEXT_FONT_SIZE = 13;
 const COPYRIGHT_TEXT = "© ntno 2021, All rights reserved";
 const ASSETS_INDEX_FILENAME = "meta/assets-apd.json";
 const IMAGE_FOLDER = "assets/apothecary-notes-detail/";
+// const ASSETS_INDEX_FILENAME = "meta/assets-mld.json";
+// const IMAGE_FOLDER = "assets/manor-letter-detail/";
 
 let myCanvas;
 let debugFlag = false;
