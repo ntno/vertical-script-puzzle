@@ -129,7 +129,7 @@ function setup() {
         imgTiles[i].debug();
     }
     console.log(imgTiles.length + " tiles");
-    for (let i = 1; i < imgTiles.length-1; i++) {
+    for (let i = 1; i < imgTiles.length; i++) {
         totalLengthOfTiles = totalLengthOfTiles + imgTiles[i-1].getHeight() + imgPadding;
         console.log("moving " + imgTiles[i].getFilePath() + " to " + (startingHeight + totalLengthOfTiles));
         imgTiles[i].setHeight(startingHeight + totalLengthOfTiles);
