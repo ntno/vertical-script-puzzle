@@ -5,7 +5,7 @@ class ImgTile {
         this.img = loadImage(imgPath, () => {
             this.img_width = this.img.width;
             this.img_height = this.img.height;
-            this.x = INITIAL_WIDTH/2-this.img.width/2;
+            this.x = INITIAL_SCROLL_WIDTH/2-this.img.width/2;
             }   
         );
     }

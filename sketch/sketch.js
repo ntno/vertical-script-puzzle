@@ -1,5 +1,6 @@
-const INITIAL_WIDTH=90;
+const INITIAL_WIDTH=800;
 const INITIAL_HEIGHT=800;
+const INITIAL_SCROLL_WIDTH=100;
 const INITIAL_FRAME_RATE=45;
 const DEFAULT_SCROLL_UNIT = -2;
 
@@ -85,8 +86,8 @@ function setup() {
     frameRate(INITIAL_FRAME_RATE)
     myCanvas = createCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     myCanvas.parent("canvasContainer");
-    // myCanvas.style("border", "1pt");
-    // myCanvas.style("border-style", "solid");
+    myCanvas.style("border", "1pt");
+    myCanvas.style("border-style", "solid");
 
     for (let i = 0; i < imgTiles.length; i++) {
         imgTiles[i].debug();
