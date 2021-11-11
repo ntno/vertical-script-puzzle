@@ -89,7 +89,6 @@ class ImgTile {
         this.img_height = this.img.height;
     }
     
-
     debug() {
         console.log(this.getFilePath() + " is " + this.img_width + " by " + str(this.getHeight()));
     }

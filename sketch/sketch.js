@@ -116,6 +116,10 @@ function setup() {
     for (let i = 0; i < apothecaryScrollingTiles.length; i++) {
         apothecaryScrollingTiles[i].debug();
     }
+    for (let i = 0; i < apothecaryPlacedTiles.length; i++) {
+        apothecaryPlacedTiles[i].resizeTile(40);
+    }
+    
     repositionTiles();
 }
 
