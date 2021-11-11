@@ -1,5 +1,6 @@
 # vertical-script-puzzle
 
+![exploration of fantasy text](./demo.gif)
 
 ## sketch controls
 
