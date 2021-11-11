@@ -13,7 +13,11 @@ class ImgTile {
     getHeight(){
         return this.img_height;
     }
-    
+
+    setHeight(ypos){
+        this.y = ypos;
+    }
+
     scroll(offset){
         this.y = this.y + offset;
     }
@@ -22,7 +26,11 @@ class ImgTile {
         image(this.img, this.x, this.y);
     }
 
+    getFilePath(){
+        return this.filePath;
+    }
+    
     debug(){
-        console.log(this.filePath + " is " + this.img_width + " by " + this.img_height);
+        console.log(this.getFilePath() + " is " + this.img_width + " by " + str(this.getHeight()));
     }
   }

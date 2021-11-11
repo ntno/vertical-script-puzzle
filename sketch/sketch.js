@@ -1,37 +1,34 @@
 const INITIAL_WIDTH=200;
 const INITIAL_HEIGHT=800;
 const INITIAL_FRAME_RATE=30;
+const DEFAULT_SCROLL_UNIT = -1;
 
 const TEXT_FONT_SIZE = 13;
-//60 - for gage selector reference images
 const COPYRIGHT_TEXT = "© ntno 2021, All rights reserved";
-const COPYRIGHT_TEXT_WITH_LINE_BREAK = "© ntno 2021,\nAll rights reserved";
 const ASSETS_INDEX_FILENAME = "meta/assets-apd.json";
 const IMAGE_FOLDER = "assets/apothecary-notes-detail/";
 
 let myCanvas;
 let debugFlag = false;
-let verticalFlag = false;
-let wrapFlag = false;
 
 let assetsData;
 let assetFilenames = [];
-let currentImageName;
-let currentImage;
-let currentImageIndex = 0;
-let stampText = "";
-
 let imgTiles = []; 
+let imgPadding = 5;
+let scrollUnit = DEFAULT_SCROLL_UNIT;
 
+//load file names
 function preload() {
     assetsData = loadJSON(ASSETS_INDEX_FILENAME, callback = initializeData);
 }
 
+//create tiles 
+//update starting position 
 function initializeData() {
     assetFilenames = Object.values(assetsData);
     for (let i = 0; i < assetFilenames.length; i++) {
-        imgTiles.push(new ImgTile(random(INITIAL_HEIGHT), IMAGE_FOLDER + assetFilenames[i]));
-      }
+        imgTiles.push(new ImgTile(INITIAL_HEIGHT, IMAGE_FOLDER + assetFilenames[i]));
+    }
 }
 
 
@@ -40,8 +37,7 @@ function draw() {
     background(255);
     for (let i = 0; i < imgTiles.length; i++) {
         imgTiles[i].display();
-        imgTiles[i].scroll(1);
-
+        imgTiles[i].scroll(scrollUnit);
       }
 
     if (debugFlag) {
@@ -50,10 +46,20 @@ function draw() {
 
 }
 
+//interactive controls
 function keyTyped() {
     if (key === "d") {
         print("toggling debug");
         debugFlag = !debugFlag;
+    }
+    if (key === "s"){
+        print("toggling scroll");
+        if(scrollUnit == 0){
+            scrollUnit = DEFAULT_SCROLL_UNIT;
+        }
+        else{
+            scrollUnit = 0;
+        }
     }
 }
 
@@ -117,9 +123,16 @@ function setup() {
     myCanvas.style("border", "1pt");
     myCanvas.style("border-style", "solid");
 
+    let startingHeight = INITIAL_HEIGHT;
+    let totalLengthOfTiles = imgPadding;
     for (let i = 0; i < imgTiles.length; i++) {
-        imgTiles[i].display();
-        // imgTiles[i].scroll();
-
+        imgTiles[i].debug();
+    }
+    console.log(imgTiles.length + " tiles");
+    for (let i = 1; i < imgTiles.length-1; i++) {
+        totalLengthOfTiles = totalLengthOfTiles + imgTiles[i-1].getHeight() + imgPadding;
+        console.log("moving " + imgTiles[i].getFilePath() + " to " + (startingHeight + totalLengthOfTiles));
+        imgTiles[i].setHeight(startingHeight + totalLengthOfTiles);
       }
+
 }
