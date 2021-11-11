@@ -31,8 +31,6 @@ function initializeData() {
     }
 }
 
-
-
 function draw() {
     background(255);
     for (let i = 0; i < imgTiles.length; i++) {
@@ -53,7 +51,7 @@ function keyTyped() {
         debugFlag = !debugFlag;
     }
     if (key === "s"){
-        print("toggling scroll");
+        print("toggling scroll stop");
         if(scrollUnit == 0){
             scrollUnit = DEFAULT_SCROLL_UNIT;
         }
@@ -61,6 +59,37 @@ function keyTyped() {
             scrollUnit = 0;
         }
     }
+}
+
+function drawCenterlines() {
+    stroke(255, 0, 0);
+    strokeWeight(1);
+    line(0, height / 2, width, height / 2);
+    line(width / 2, 0, width / 2, height);
+}
+
+function repositionTiles(){
+    let startingHeight = INITIAL_HEIGHT;
+    let totalLengthOfTiles = imgPadding;
+ 
+    for (let i = 1; i < imgTiles.length; i++) {
+        totalLengthOfTiles = totalLengthOfTiles + imgTiles[i-1].getHeight() + imgPadding;
+        console.log("moving " + imgTiles[i].getFilePath() + " to " + (startingHeight + totalLengthOfTiles));
+        imgTiles[i].setHeight(startingHeight + totalLengthOfTiles);
+    }
+}
+
+function setup() {
+    frameRate(INITIAL_FRAME_RATE)
+    myCanvas = createCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
+    myCanvas.parent("canvasContainer");
+    myCanvas.style("border", "1pt");
+    myCanvas.style("border-style", "solid");
+
+    for (let i = 0; i < imgTiles.length; i++) {
+        imgTiles[i].debug();
+    }
+    repositionTiles();
 }
 
 
@@ -108,31 +137,3 @@ function keyTyped() {
 // }
 
 
-
-function drawCenterlines() {
-    stroke(255, 0, 0);
-    strokeWeight(1);
-    line(0, height / 2, width, height / 2);
-    line(width / 2, 0, width / 2, height);
-}
-
-function setup() {
-    frameRate(INITIAL_FRAME_RATE)
-    myCanvas = createCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
-    myCanvas.parent("canvasContainer");
-    myCanvas.style("border", "1pt");
-    myCanvas.style("border-style", "solid");
-
-    let startingHeight = INITIAL_HEIGHT;
-    let totalLengthOfTiles = imgPadding;
-    for (let i = 0; i < imgTiles.length; i++) {
-        imgTiles[i].debug();
-    }
-    console.log(imgTiles.length + " tiles");
-    for (let i = 1; i < imgTiles.length; i++) {
-        totalLengthOfTiles = totalLengthOfTiles + imgTiles[i-1].getHeight() + imgPadding;
-        console.log("moving " + imgTiles[i].getFilePath() + " to " + (startingHeight + totalLengthOfTiles));
-        imgTiles[i].setHeight(startingHeight + totalLengthOfTiles);
-      }
-
-}
