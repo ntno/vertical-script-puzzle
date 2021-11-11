@@ -1,5 +1,5 @@
 class ImgTile {
-    constructor(xpos, ypos, imgPath) {
+    constructor(xpos, ypos, imgPath, imgTint) {
         this.x = xpos;
         this.y = ypos;
         this.filePath = imgPath;
@@ -8,6 +8,7 @@ class ImgTile {
             this.img_height = this.img.height;
             }   
         );
+        this.imgTint = imgTint;
     }
 
     getWidth(){
@@ -22,7 +23,7 @@ class ImgTile {
         this.setX(xpos);
         this.setY(ypos);
     }
-    
+
     setX(xpos){
         this.x = xpos
     }
@@ -36,7 +37,9 @@ class ImgTile {
     }
 
     display() {
+        tint(this.imgTint);
         image(this.img, this.x, this.y);
+        noTint();
     }
 
     getFilePath(){

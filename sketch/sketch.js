@@ -30,9 +30,11 @@ function preload() {
 //update starting position 
 function initializeData() {
     assetFilenames = Object.values(assetsData);
+    let scrollTint = color(200, 255);
+    let placedTint = color(255, 204, 0, 150);
     for (let i = 0; i < assetFilenames.length; i++) {
-        scrollingTiles.push(new ImgTile(random(INITIAL_WIDTH), INITIAL_HEIGHT, IMAGE_FOLDER + assetFilenames[i]));
-        placedTiles.push(new ImgTile(random(INITIAL_WIDTH), random(INITIAL_HEIGHT), IMAGE_FOLDER + assetFilenames[i]));
+        scrollingTiles.push(new ImgTile(random(INITIAL_WIDTH), INITIAL_HEIGHT, IMAGE_FOLDER + assetFilenames[i], scrollTint));
+        placedTiles.push(new ImgTile(random(INITIAL_WIDTH), random(INITIAL_HEIGHT), IMAGE_FOLDER + assetFilenames[i], placedTint));
     }
 }
 
@@ -92,6 +94,7 @@ function repositionTiles(){
 }
 
 function setup() {
+    colorMode(RGB, 100);
     frameRate(INITIAL_FRAME_RATE)
     myCanvas = createCanvas(INITIAL_WIDTH, INITIAL_HEIGHT);
     myCanvas.parent("canvasContainer");
