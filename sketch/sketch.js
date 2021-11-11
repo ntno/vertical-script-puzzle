@@ -12,6 +12,7 @@ const MANOR_IMAGE_FOLDER = "assets/manor-letter-detail/";
 
 let myCanvas;
 let debugFlag = false;
+let saveCount = 0;
 
 let apothecaryAssetDetails;
 let apothecaryImageFilenames = [];
@@ -102,6 +103,10 @@ function keyTyped() {
         else {
             scrollUnit = 0;
         }
+    }
+    if (key === "w") {
+        saveCanvas(myCanvas, "wip-" + saveCount);
+        saveCount++;
     }
 }
 
