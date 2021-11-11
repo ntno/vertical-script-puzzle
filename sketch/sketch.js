@@ -1,6 +1,6 @@
-const INITIAL_WIDTH=800;
+const INITIAL_WIDTH=900;
 const INITIAL_HEIGHT=800;
-const INITIAL_SCROLL_WIDTH=100;
+const INITIAL_SCROLL_WIDTH=90;
 const INITIAL_FRAME_RATE=45;
 const DEFAULT_SCROLL_UNIT = -2;
 
@@ -41,6 +41,10 @@ function draw() {
     for (let i = 0; i < scrollingTiles.length; i++) {
         scrollingTiles[i].display();
         scrollingTiles[i].scroll(scrollUnit);
+      }
+      
+      for (let i = 0; i < placedTiles.length; i++) {
+        placedTiles[i].display();
       }
 
     if (debugFlag) {

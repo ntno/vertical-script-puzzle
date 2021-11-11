@@ -18,6 +18,11 @@ class ImgTile {
         return this.img_height;
     }
 
+    setPos(xpos, ypos){
+        this.setX(xpos);
+        this.setY(ypos);
+    }
+    
     setX(xpos){
         this.x = xpos
     }
