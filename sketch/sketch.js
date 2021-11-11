@@ -1,4 +1,4 @@
-const INITIAL_WIDTH=900;
+const INITIAL_WIDTH=1200;
 const INITIAL_HEIGHT=800;
 const INITIAL_SCROLL_WIDTH=90;
 const INITIAL_FRAME_RATE=45;
@@ -46,14 +46,26 @@ function draw() {
       }
       
       for (let i = 0; i < placedTiles.length; i++) {
+        placedTiles[i].updateForDrag();
         placedTiles[i].display();
       }
 
     if (debugFlag) {
         drawCenterlines();
     }
-
-}
+  }
+  
+  function mousePressed() {
+    for (let i = 0; i < placedTiles.length; i++) {
+        placedTiles[i].isMousePressed();
+      }
+  }
+  
+  function mouseReleased() {
+    for (let i = 0; i < placedTiles.length; i++) {
+        placedTiles[i].setDragComplete();
+      }
+  }
 
 //interactive controls
 function keyTyped() {
