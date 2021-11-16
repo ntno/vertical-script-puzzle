@@ -13,9 +13,6 @@ click/drag colored tiles
 
 ## references
 
-
-
-
 click/drag implementation  
 - [p5.js example](https://p5js.org/examples/input-mouse-functions.html)
 - [daniel shiffman](http://www.shiffman.net)  
